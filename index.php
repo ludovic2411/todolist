@@ -1,4 +1,19 @@
 <?php
+//sanitisation
+$options=array(
+"tache" => FILTER_SANITIZE_STRING,
+"ajouter" => FILTER_SANITIZE_STRING,
+"boutton" => FILTER_SANITIZE_STRING,
+"tache_ligne" => FILTER_SANITIZE_STRING,
+"formafaire"=> FILTER_SANITIZE_STRING
+);
+$result = filter_input_array(INPUT_POST, $options);
+//toujours avant le reste
+$_POST["ajouter"] = filter_var($_POST["ajouter"], FILTER_SANITIZE_STRING);
+$_POST["tache_ligne"] = filter_var($_POST["tache_ligne"], FILTER_SANITIZE_STRING);
+$_POST["tache"] = filter_var($_POST["tache"],FILTER_SANITIZE_STRING);
+$_POST["boutton"] = filter_var($_POST["boutton"],FILTER_SANITIZE_STRING);
+$_POST["formafaire"]=filter_var($POST["formafaire"],FILTER_SANITIZE_STRING);
 $jsonURL="todo.json"; //source
 $jsonReceived = file_get_contents($jsonURL); //prendre le fichier
 $log = json_decode($jsonReceived, true); //décoder ( true = dans un tableau )

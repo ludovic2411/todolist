@@ -1,0 +1,49 @@
+
+body{
+  background:linear-gradient(
+ rgba(0, 0, 0, 0.45),
+ rgba(0, 0, 0, 0.45)), url("jessica-lewis-512224-unsplash.jpg");
+  background-size: cover;
+}
+.page{
+  font-family: 'Mukta Malar', sans-serif;
+  width:600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  border: solid 2px #fffaf0;
+  border-radius: 10px;
+  background: transparent;
+  color: #fffaf0;
+}
+.afaire{
+  margin-left: 30px;
+}
+.afaire input{
+  margin-left: 30px;
+  background: transparent;
+  border: solid 1px #fffaf0;
+  border-radius: 10px;
+  color: #fffaf0;
+}
+.archive{
+  margin-left: 30px;
+}
+.tache{
+  padding-bottom: 10px;
+  margin-left: 30px;
+}
+.tache input{
+  background: transparent;
+  border: solid 1px #fffaf0;
+  border-radius: 10px;
+  color: #fffaf0;
+}
+input[type=checkbox]{
+  background: transparent;
+  border-radius:4px;
+  border-top: solid 1px #fffaf0;
+}
+hr{
+  color:#fffaf0;
+}

@@ -1,23 +1,23 @@
 <?php
 //sanitisation
-function sanitize($key, $filter=FILTER_SANITIZE_STRING){
-    $sanitized_variable = null;
-    if(isset($_POST['tache'])OR isset($_POST['boutton'])){
-        if(is_array($key)){                 // si la valeur est un tableau...
-        $sanitized_variable = filter_var_array($key, $filter);
-        }
-        else {                              // sinon ...
-        $sanitized_variable = filter_var($key, $filter);
-        }
-    }
-    return $sanitized_variable;
-}
+// function sanitize($key, $filter=FILTER_SANITIZE_STRING){
+//     $sanitized_variable = null;
+//     if(isset($_POST['tache'])OR isset($_POST['boutton'])){
+//         if(is_array($key)){                 // si la valeur est un tableau...
+//         $sanitized_variable = filter_var_array($key, $filter);
+//         }
+//         else {                              // sinon ...
+//         $sanitized_variable = filter_var($key, $filter);
+//         }
+//     }
+//     return $sanitized_variable;
+// }
 $jsonURL="todo.json"; //source
 $jsonReceived = file_get_contents($jsonURL); //prendre le fichier
 $log = json_decode($jsonReceived, true); //décoder ( true = dans un tableau )
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ \
 if (isset($_POST['ajouter']) AND end($log)['nomtache'] != $_POST['tache']){ //Si on appuie sur le boutton ajouter...
-$add_tache = sanitize($_POST['tache']); //je récupère la valeur que je veux ajouter
+$add_tache =$_POST['tache']; //je récupère la valeur que je veux ajouter
 $array_tache = array("nomtache" => $add_tache, // je la met dans un tableau
 "fin" => false);
 $log[] = $array_tache; // je crée un tableau multi dimensionnel

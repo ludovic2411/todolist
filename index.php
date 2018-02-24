@@ -4,19 +4,19 @@ $jsonReceived = file_get_contents($jsonURL); //prendre le fichier
 $log = json_decode($jsonReceived, true); //décoder ( true = dans un tableau )
 //sanitization
 function sanitize($key, $filter=FILTER_SANITIZE_STRING){
-    $sanitized_variable = null;
-    if(isset($_POST['tache'])OR isset($_POST['boutton'])){
-        if(is_array($key)){                 // si la valeur est un tableau...
-        $sanitized_variable = filter_var_array($key, $filter);
-        }
-        else {                              // sinon ...
-        $sanitized_variable = filter_var($key, $filter);
-        }
-    }
-    return $sanitized_variable;
+$sanitized_variable = null;
+if(isset($_POST['tache'])OR isset($_POST['boutton'])){
+if(is_array($key)){ // si la valeur est un tableau...
+$sanitized_variable = filter_var_array($key, $filter);
 }
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ \\
+else { // sinon ...
+$sanitized_variable = filter_var($key, $filter);
+}
+}
+return $sanitized_variable;
+}
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ \
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 if (isset($_POST['ajouter']) AND end($log)['nomtache'] != $_POST['tache']){ //Si on appuie sur le boutton ajouter...
 $add_tache =sanitize( $_POST['tache']); //je récupère la valeur que je veux ajouter
 $array_tache = array("nomtache" => $add_tache, // je la met dans un tableau
@@ -30,17 +30,17 @@ $log = json_decode($json_enc, true); // je décode le tout pour pouvoir le lire
 if (isset($_POST['boutton'])){ //si j'enregistre ( je check la case )
 $choix=sanitize($_POST['tache']); // je récupère les valeurs checkée ("tache[]") des inputs ( qui sont alors dans un tableau )
 
-for ($init = 0; $init < count($log); $init ++){         // Pour chaque ligne du tableau
-    if (in_array($log[$init]['nomtache'], $choix)){     // Je compare les valeurs checkée avec le tableau
-                                                // --> Si valeur de "nomtache" se trouve dans le tableau $choix alors...
-      $log[$init]['fin'] = true;                // Je transforme False en True
-    }
+for ($init = 0; $init < count($log); $init ++){ // Pour chaque ligne du tableau
+if (in_array($log[$init]['nomtache'], $choix)){ // Je compare les valeurs checkée avec le tableau
+// --> Si valeur de "nomtache" se trouve dans le tableau $choix alors...
+$log[$init]['fin'] = true; // Je transforme False en True
 }
-$json_enc= json_encode($log, JSON_PRETTY_PRINT);       //            ///
-                                                //             //
-file_put_contents($jsonURL, $json_enc);      //      /// :Same shit: //
-                                                //             //
-$log = json_decode($json_enc, true);                //            ///
+}
+$json_enc= json_encode($log, JSON_PRETTY_PRINT); // ///
+// //
+file_put_contents($jsonURL, $json_enc); // /// :Same shit: //
+// //
+$log = json_decode($json_enc, true); // ///
 
 }
 ?>
@@ -76,15 +76,17 @@ echo "<input type='checkbox' name='tache[]' value='".$value["nomtache"]."'/>
 <section class="archive">
 <h2>Fait</h2>
 <form action="index.php" method="post" name="formchecked">
+<div class="done">
 <?php
 foreach ($log as $key => $value){
 if ($value["fin"] == true){
-echo "<input type='checkbox' name='tache[]' value='".$value."'checked/>
+echo "<input type='checkbox' style='text-decoration:line-through, red;' name='tache[]' value='".$value."'checked/>
 <label for='choix'>".$value["nomtache"]."</label><br />";
 }
 }
 ?>
 </form>
+</div>
 </section>
 <hr>
 <footer class="tache">

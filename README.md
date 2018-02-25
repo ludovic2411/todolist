@@ -14,5 +14,9 @@ Ludovic Ceccotti et Sarah Klewiec ont fait ensembles le formulaire html, l'encod
 la liste json et l'affichage de  la liste des choses à faire .
 
 Ludovic a réalisé le CSS de l'application tandis que Sarah a réalisé le script php pour faire passer
-les tâches cochées comme faites dans la partie de l'interface prévue à cet effet avec l'aide de Bryan Mootoosamy et de Arnaud
-Duchemin.
+les tâches cochées comme faites dans la partie de l'interface prévue à cet effet avec l'aide de Bryan Mootoosamy, de Arnaud
+Ducheminet de mathieu Leers.
+
+## Lien vers l'application
+L'application est déployée sur Heroku. Vous pouvez utilier l'application en cliquant sur le lien ci-dessous.
+[Lien vers l'application](https://todolist-ludovic-ceccotti.herokuapp.com/index.php)

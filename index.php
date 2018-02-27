@@ -17,12 +17,12 @@ return $sanitized_variable;
 }
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ \
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-if (isset($_POST['ajouter']) AND end($log)['nomtache'] != $_POST['tache']){ //Si on appuie sur le boutton ajouter...
+if (isset($_POST['ajouter']) AND end($log)['nomtache'] != $_POST['tache'] AND !empty ($_POST['tache'])){ //Si on appuie sur le boutton ajouter...
 $add_tache =sanitize( $_POST['tache']); //je récupère la valeur que je veux ajouter
 $array_tache = array("nomtache" => $add_tache, // je la met dans un tableau
 "fin" => false);
 $log[] = $array_tache; // je crée un tableau multi dimensionnel
-$json_enc= json_encode($log, JSON_PRETTY_PRINT); // j'encore pour json ( avec passage à la ligne )
+$json_enc= json_encode($log, JSON_PRETTY_PRINT); // j'encode pour json ( avec passage à la ligne )
 file_put_contents($jsonURL, $json_enc); // j'envoie les données dans le json
 $log = json_decode($json_enc, true); // je décode le tout pour pouvoir le lire
 

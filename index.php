@@ -1,9 +1,12 @@
 <?php
-
+//variables date
+$date=$_POST['date'];
+$date_todo= date("d-m-Y");
+echo $date_todo;
 //sanitization
 function sanitize($key, $filter=FILTER_SANITIZE_STRING){
   $sanitized_variable = null;
-  if(isset($_POST['tache'])OR isset($_POST['boutton'])){
+  if( isset($_POST['date'])OR($_POST['tache'])OR isset($_POST['check'])){
     if(is_array($key)){ // si la valeur est un tableau...
       $sanitized_variable = filter_var_array($key, $filter);
     }
@@ -28,17 +31,21 @@ if (isset($_POST['ajouter'])  and !empty ($_POST['tache'])){ //Si on appuie sur 
   $add_tache =sanitize( $_POST['tache']); //je récupère la valeur que je veux ajouter
 
   //Export vers la db
-  $a_faire= $bd->query("INSERT INTO todolist(id, A_FAIRE, STATUT) VALUES (null,'".$add_tache."','N')");
+  $a_faire= $bd->query("INSERT INTO todolist(id, A_FAIRE, STATUT, ECHEANCE) VALUES (null,'".$add_tache."','N','".$date."')");
   //afficher les données de la bd
 }
 //transformer les tâches en "fait"
 if (isset($_POST['check'])  and isset($_POST['list'])) {//Si j'enregistre et que la db existe et que j'ai coché...
   for ($i = 0 ; $i < count($_POST['list']); $i++){
-  $bd->query("UPDATE todolist SET STATUT='F' WHERE id='".$_POST['list'][$i]."'");
+    $bd->query("UPDATE todolist SET STATUT='F' WHERE id='".$_POST['list'][$i]."'");
   }//Le statut passe de N à F...
 }
 $todo=$bd->query("SELECT A_FAIRE, id FROM todolist WHERE STATUT='N'");
 $todo_done=$bd->query("SELECT A_FAIRE FROM todolist WHERE STATUT='F'");//Je reprend les tâches avec F.
+//Supprimer les données dans la table
+if (isset($_POST['delete'])) {//Si j'appuie sur le bouton delete
+  $delete=$bd->query("DELETE  FROM `todolist`");//Je supprime les données de la table
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,8 +86,8 @@ $todo_done=$bd->query("SELECT A_FAIRE FROM todolist WHERE STATUT='F'");//Je repr
             echo "<input type='checkbox' style='text-decoration:line-through, red;' name='list_done[]' value='".$archive['A_FAIRE']."'checked/>
             <label for='choix'>".$archive['A_FAIRE']."</label><br />";
           }
-
           ?>
+
         </form>
       </div>
     </section>
@@ -89,8 +96,10 @@ $todo_done=$bd->query("SELECT A_FAIRE FROM todolist WHERE STATUT='F'");//Je repr
       <h2>Ajouter une tâche</h2>
       <form class="" action="index.php" method="post">
         <!-- <label for="tache">La tâche à effectuer</label> -->
+        <input type="date" name="date" value="Echéance"><br>
         <input type="text" name="tache" value="">
         <input type="submit" name="ajouter" value="Ajouter">
+        <input type="submit" name="delete" value="Nouvelle journée">
       </form>
     </footer>
   </div>

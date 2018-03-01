@@ -16,6 +16,7 @@ function sanitize($key, $filter=FILTER_SANITIZE_STRING){
   }
   return $sanitized_variable;
 }
+//////////////////////////////////////////////
 try
 {
   // On se connecte à MySQL

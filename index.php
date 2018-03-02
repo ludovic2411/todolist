@@ -18,21 +18,23 @@ function sanitize($key, $filter=FILTER_SANITIZE_STRING){
 }
 //////////////////////////////////////////////
 try
-{
-  // On se connecte à MySQL
-  $bd = new PDO('mysql:host=localhost;dbname=todo_list;charset=utf8', 'root', 'user');
+{//on se connecte à SQL (webhost)
+$bd = new PDO('mysql:host=localhost;dbname=id4745934_todo_list;charset=utf8', 'id4745934_ludovic', 'user@');
+
+// // //   // On se connecte à MySQL(localhost)
+// $bd = new PDO('mysql:host=localhost;dbname=todo_list;charset=utf8', 'root', 'user');
 }
 catch(Exception $e)
 {
   // En cas d'erreur, on affiche un message et on arrête tout
   die('Erreur : '.$e->getMessage());
 }
-
 if (isset($_POST['ajouter'])  and !empty ($_POST['tache'])){ //Si on appuie sur le boutton ajouter...
   $add_tache =sanitize( $_POST['tache']); //je récupère la valeur que je veux ajouter
 
   //Export vers la db
-  $a_faire= $bd->query("INSERT INTO todolist(id, A_FAIRE, STATUT, ECHEANCE) VALUES (null,'".$add_tache."','N','".$date."')");
+   $a_faire= $bd->query("INSERT INTO todolist(id, A_FAIRE, STATUT, ECHEANCE) VALUES (null,'".$add_tache."','N','".$date."')");
+
   //afficher les données de la bd
 }
 //supprimer de la bd. On supprime avant de réécrire dans la bd
@@ -46,8 +48,9 @@ if (isset($_POST['check'])  and isset($_POST['list'])) {//Si j'enregistre et que
   }//Le statut passe de N à F...
 }
 $todo=$bd->query("SELECT A_FAIRE, id,ECHEANCE FROM todolist WHERE STATUT='N'");//Je sélectionne les tâches à faire
+//print_r($todo->fetchAll());
 $todo_done=$bd->query("SELECT A_FAIRE FROM todolist WHERE STATUT='F'");//Je reprend les tâches avec F.
-//Supprimer les données dans la table
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,6 +69,7 @@ $todo_done=$bd->query("SELECT A_FAIRE FROM todolist WHERE STATUT='F'");//Je repr
       <h2>A faire</h2>
       <form action="index.php" method="post" name="formafaire">
         <?php
+
         //Afficher ce qui est à faire
         while ($donnees = $todo->fetch())
         {
@@ -86,7 +90,7 @@ $todo_done=$bd->query("SELECT A_FAIRE FROM todolist WHERE STATUT='F'");//Je repr
       <form action="index.php" method="post" name="formchecked">
         <div class="done">
           <?php
-          while ($archive=$todo_done ->fetch())
+          while ($archive=$todo_done->fetch())
           {
             echo "<input type='checkbox' style='text-decoration:line-through, red;' name='list_done[]' value='".$archive['A_FAIRE']."'checked/>
             <label for='choix'>".$archive['A_FAIRE']."</label><br />";
@@ -109,7 +113,7 @@ $todo_done=$bd->query("SELECT A_FAIRE FROM todolist WHERE STATUT='F'");//Je repr
   </div>
 </body>
 <?php
-$todo->closeCursor();
-$todo_done->closeCursor();
+// $todo->closeCursor();
+// $todo_done->closeCursor();
 ?>
 </html>
